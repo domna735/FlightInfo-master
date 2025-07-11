@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Shipment Tracking</title>
+</head>
+<script language="JavaScript">   
+
+<!--                                                                                  
+                                                                                
+function private_MouseOver()                        
+      { 
+		if(document.images) { 
+			eval("document." + this.stImageName + ".src=\'" + this.stOverImage + "\'");
+								} 
+	  }                  
+                                                                                
+function private_MouseOut()                          
+      { 
+		if(document.images) { 
+		    eval("document." + this.stImageName + ".src=\'" + this.stOutImage + "\'");
+								} 
+	   }                   
+                                                                                
+function objMouseChangeImg (stImageName, stOverImage, stOutImage) 
+      { 
+		this.stImageName = stImageName;   
+		this.stOverImage = stOverImage;   
+		this.stOutImage = stOutImage;                               
+       this.MouseOut = private_MouseOut;   
+		this.MouseOver = private_MouseOver; 
+      }            
+      
+objPIC1 = new objMouseChangeImg('PIC1',  '../../images/return2.gif ',  '../../images/return1.gif');                                    
+                                                                                
+// --> 
+</script>
+
+
+<body BGCOLOR="#FFFFFF">
+
+<table CELLSSPACING="0" CELLPADDING="6" WIDTH="100%" HEIGHT="40" BORDER="0">
+  <tr>
+    <td BGCOLOR="#CC0000"><font FACE="arial,helvetica" COLOR="#FFFFFF" SIZE="+1"><b>Flight Information service is under maintenance.</b></font></td>
+  <td BGCOLOR="white"></td>
+  </tr>
+  <tr>
+    <td></td>
+  </tr>
+  <tr>
+    <td BGCOLOR="#FFFFFF"><font FACE="arial,helvetica" size="2">Sorry! We cannot process your request at this moment. <br>
+Please contact our 24-hour Customer Service Hotline on (852) 2400-3388 for assistance.</font></td>
+  </tr>
+  <tr><td></td></tr>
+  
+</table>
+</body>
+<SCRIPT LANGUAGE="javascript" SRC="../../js_client/copyright_a.js"></SCRIPT>
+</html>

@@ -1,0 +1,20 @@
+修正「Cookies Missing 'SameSite' Attributes」問題操作紀錄
+
+一、問題描述
+根據資安稽核報告，JSESSIONID Cookie 缺少 SameSite 屬性，造成 CSRF 風險。
+
+二、處理步驟
+1. 修改 Tomcat context.xml
+   - 編輯 /appl/service/conf/context.xml
+   - 在 <Context ...> 標籤內加入：
+     <CookieProcessor sameSiteCookies="Lax"/>
+2. 重啟 Tomcat
+   - 執行 /appl/service/scripts/restart.sh 讓設定生效。
+3. 驗證
+   - 用瀏覽器開發者工具或 Burp Suite 檢查 Set-Cookie 標頭，確認 JSESSIONID 已加上 SameSite=Lax。
+
+三、注意事項
+- 其他 TSxxxx Cookie 屬於網路設備產生，需由網路/資安團隊處理，非應用程式可控。
+
+四、結果
+- JSESSIONID Cookie 已正確加上 SameSite 屬性，此資安問題已修正。
