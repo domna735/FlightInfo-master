@@ -1,9 +1,33 @@
-修正「Cookies Missing 'SameSite' Attributes」問題操作紀錄
 
-一、問題描述
+資安修正總結報告
+
+一、Referrer-Policy 標頭缺失
+
+問題描述：
+應用程式缺少 Referrer-Policy HTTP 標頭，可能導致瀏覽器在跨站請求時洩漏 Referer，造成敏感資訊外洩。（OWASP A05:2021）
+
+修正步驟：
+- JSP 臨時解法（已實作）：
+  - 在所有 JSP 頁面最上方加入：
+    <% response.setHeader("Referrer-Policy", "no-referrer-when-downgrade"); %>
+  - 確保每個 JSP 頁面都加上這一行，讓所有動態頁面回應都帶有正確的 header。
+- Java Filter（建議長期解法）：
+  - 撰寫自訂 Java Filter，於所有回應加上 Referrer-Policy header，並於 web.xml 註冊。
+
+驗證方式：
+- 使用瀏覽器開發者工具（F12）或 curl，檢查 HTTP Response Header 是否有：
+  Referrer-Policy: no-referrer-when-downgrade
+
+注意事項：
+- JSP workaround 僅適用於 JSP 輸出頁面，靜態資源不會有此 header。
+- Filter 方式可涵蓋所有資源，建議有能力時實施。
+
+二、Cookies 缺少 SameSite 屬性
+
+問題描述：
 根據資安稽核報告，JSESSIONID Cookie 缺少 SameSite 屬性，造成 CSRF 風險。
 
-二、處理步驟
+修正步驟：
 1. 修改 Tomcat context.xml
    - 編輯 /appl/service/conf/context.xml
    - 在 <Context ...> 標籤內加入：
@@ -13,8 +37,8 @@
 3. 驗證
    - 用瀏覽器開發者工具或 Burp Suite 檢查 Set-Cookie 標頭，確認 JSESSIONID 已加上 SameSite=Lax。
 
-三、注意事項
+注意事項：
 - 其他 TSxxxx Cookie 屬於網路設備產生，需由網路/資安團隊處理，非應用程式可控。
 
-四、結果
+結果：
 - JSESSIONID Cookie 已正確加上 SameSite 屬性，此資安問題已修正。
